@@ -11,7 +11,7 @@ using UA.Infrastructure.Data;
 namespace UA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250830080449_InitialCreate")]
+    [Migration("20250830085959_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
