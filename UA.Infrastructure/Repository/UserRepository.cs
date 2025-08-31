@@ -19,12 +19,14 @@ namespace UA.Infrastructure.Repository
         }
         public async Task<User> AddAsync(User entity)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Users.ToListAsync();
         }
 
         public async Task<User?> GetByIdAsync(Guid id)
@@ -32,19 +34,17 @@ namespace UA.Infrastructure.Repository
             return await _context.Users.FirstOrDefaultAsync(x=>x.Id == id);
         }
 
-        public async Task Remove(User entity)
+        public async Task RemoveAsync(User entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
+            _context.Users.Remove(entity);
+            await _context.SaveChangesAsync();
+        }   
 
         public async Task<User> UpdateAsync(User entity)
         {
-            throw new NotImplementedException();
+            var User = _context.Users.Update(entity).Entity;
+            await _context.SaveChangesAsync();
+            return User;
         }
     }
 }

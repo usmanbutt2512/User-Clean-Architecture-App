@@ -12,7 +12,6 @@ namespace UA.Application.Interfaces
         Task<IEnumerable<T>> GetAllAsync();
         Task<T?> GetByIdAsync(Guid id);
         Task<T> UpdateAsync(T entity);
-        Task Remove(T entity);
-        Task SaveChangesAsync();
+        Task RemoveAsync(T entity);
     }
 }

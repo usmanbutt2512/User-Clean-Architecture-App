@@ -10,9 +10,9 @@ namespace UA.Application.Interfaces
     public  interface IUserService
     {
         Task<UserDto?> GetUserByIdAsync(Guid id);
-        Task<UserDto> CreateUserAsync(UserCreateUpdateDto dto);
-        Task<UserDto> UpdateUserAsync(UserCreateUpdateDto dto);
-        Task DeleteUserAsync(Guid id);
-        Task<UserDto> UpdateUserEmail(Guid id, UserEmailUpdateDto email);
+        Task<UserDto?> CreateUserAsync(UserCreateUpdateDto dto);
+        Task<UserDto?> UpdateUserAsync(Guid id, UserCreateUpdateDto dto);
+        Task<bool> DeleteUserAsync(Guid id);
+        Task<UserDto?> UpdateUserEmail(Guid id, UserEmailUpdateDto email);
     }
 }

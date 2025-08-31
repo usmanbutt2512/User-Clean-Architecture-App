@@ -17,14 +17,30 @@ namespace UA.Application.Services
             _userRepo = userRepository;
         }
 
-        public Task<UserDto> CreateUserAsync(UserCreateUpdateDto dto)
-        {
-            throw new NotImplementedException();
+        public async Task<UserDto?> CreateUserAsync(UserCreateUpdateDto dto)
+        {            
+            var user = await _userRepo.AddAsync(new User
+            {
+                Name = dto.Name,
+                Email = dto.Email
+            });
+
+            if (user != null)
+            {                
+                return Map(user);
+            }
+            return null;
         }
 
-        public Task DeleteUserAsync(Guid id)
+        public async Task<bool> DeleteUserAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var user = await _userRepo.GetByIdAsync(id);
+            if (user != null)
+            {
+                await _userRepo.RemoveAsync(user);
+                return true;
+            }
+            return false;
         }
 
         public async Task<UserDto?> GetUserByIdAsync(Guid id)
@@ -32,25 +48,37 @@ namespace UA.Application.Services
             var user = await _userRepo.GetByIdAsync(id);
             if (user != null)
             {
-                return new UserDto
-                (
-                    user.Id,
-                    user.Name,
-                    user.Email,
-                    user.CreatedAt
-                );              
+                return Map(user);         
             }
             return null;
         }
 
-        public Task<UserDto> UpdateUserAsync(UserCreateUpdateDto dto)
+        public async Task<UserDto?> UpdateUserAsync(Guid id, UserCreateUpdateDto dto)
         {
-            throw new NotImplementedException();
+            var user = await _userRepo.GetByIdAsync(id);
+            if (user != null)
+            {
+                user.Name = dto.Name;
+                user.Email = dto.Email;
+                var updatedUser = await _userRepo.UpdateAsync(user);
+                return Map(updatedUser);
+            }
+            return null;
         }
 
-        public Task<UserDto> UpdateUserEmail(Guid id, UserEmailUpdateDto email)
+        public async Task<UserDto?> UpdateUserEmail(Guid id, UserEmailUpdateDto email)
         {
-            throw new NotImplementedException();
+
+            var user = await _userRepo.GetByIdAsync(id);
+            if (user != null) 
+            { 
+                user.Email = email.Email;
+                var updatedUser = await _userRepo.UpdateAsync(user);
+                return Map(updatedUser);
+            }
+            return null;
         }
+
+        private static UserDto Map(User u) => new UserDto(u.Id, u.Name, u.Email, u.CreatedAt);
     }
 }

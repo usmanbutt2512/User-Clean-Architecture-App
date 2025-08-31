@@ -10,30 +10,35 @@ namespace UA.WebApi.Controllers
     public class UserController(IUserService userService) : ControllerBase
     {    
 
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> Get(Guid id)
+        [HttpGet("{id:guid}")]//get user by ID
+        public async Task<IActionResult> GetById(Guid id)
         {
-            return Ok(await userService.GetUserByIdAsync(id));
+            var user = await userService.GetUserByIdAsync(id);
+            return user != null ? Ok(user) : NotFound();     
         }
-        [HttpPost]
-        public async Task<IActionResult>Post([FromBody] UserDto dto)
+        [HttpPost]//create a new user
+        public async Task<IActionResult>Post([FromBody] UserCreateUpdateDto dto)
         {
-            return Ok();
+            var user = await userService.CreateUserAsync(dto);
+            return Ok(user);
         }
-        [HttpPut("{id:guid}")]
-        public async Task<IActionResult>Put(Guid id, [FromBody] UserDto userDto)
+        [HttpPut("{id:guid}")]//update the full user
+        public async Task<IActionResult>Update(Guid id, [FromBody] UserCreateUpdateDto dto)
         {
-            return Ok();
+            var user = await userService.UpdateUserAsync(id, dto);
+            return user!=null?Ok(user):NotFound() ;
         }
-        [HttpPatch]
-        public async Task<IActionResult>Patch(Guid id, string email)
+        [HttpPatch]//update only the email
+        public async Task<IActionResult>PatchEmail(Guid id, [FromBody] UserEmailUpdateDto dto)
         {
-            return Ok();
+            var user = await userService.UpdateUserEmail(id, dto);
+            return user != null? Ok(user) : NotFound();            
         }
-        [HttpDelete]
+        [HttpDelete]//delete user by ID
         public async Task<IActionResult>Delete(Guid id)
         {
-            return Ok();
+            var delete = await userService.DeleteUserAsync(id);
+            return delete ? Ok() : NotFound();
         }
     }
 }
