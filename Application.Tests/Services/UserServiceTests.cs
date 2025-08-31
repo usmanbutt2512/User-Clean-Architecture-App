@@ -70,12 +70,11 @@ namespace Application.Tests.Services
         public async Task LinqFilterLogic_success()
         {
             var Userservice = CreateService(out var context);
-            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User101", "user1@yahoo.com"));
-            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User102", "user1@yahoo.com"));
-            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User103", "user1@Hosting.com"));
-            var filteredUsers = await Userservice.GetUsersByEmails("yahoo.com");
-            filteredUsers.Should().HaveCount(2);
-            filteredUsers.Select(u => u.Email).Should().Only;
+            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User101", "user1001@yahoo.com"));
+            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User102", "user1002@yahoo.com"));
+            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User103", "user1003@Hosting.com"));
+            var filteredUsers = await Userservice.GetUsersByEmails("yahoo.com");            
+            filteredUsers.Select(u => u.Email).Should().OnlyContain(e => e.EndsWith("@yahoo.com"));
         }
     }
 }

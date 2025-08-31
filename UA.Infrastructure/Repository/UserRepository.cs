@@ -18,7 +18,7 @@ namespace UA.Infrastructure.Repository
             _context = context;
         }
         public async Task<User> AddAsync(User entity)
-        {
+        {            
             await _context.Users.AddAsync(entity);
             await _context.SaveChangesAsync();
             return entity;
