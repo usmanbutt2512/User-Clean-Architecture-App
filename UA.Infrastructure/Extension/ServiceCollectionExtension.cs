@@ -21,7 +21,7 @@ namespace UA.Infrastructure.Extension
             {
                 options.UseSqlite(ConnectionString);
             });
-            services.AddScoped(typeof(IRepository<User>), typeof(UserRepository));
+            services.AddScoped<IRepository<User>,UserRepository>();
             return services;
         }
     }

@@ -14,5 +14,6 @@ namespace UA.Application.Interfaces
         Task<UserDto?> UpdateUserAsync(Guid id, UserCreateUpdateDto dto);
         Task<bool> DeleteUserAsync(Guid id);
         Task<UserDto?> UpdateUserEmail(Guid id, UserEmailUpdateDto email);
+        Task<List<UserDto>> GetUsersByEmails(string filter)
     }
 }

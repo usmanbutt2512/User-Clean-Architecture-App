@@ -15,6 +15,8 @@ builder.Services.AddScoped<IUserService, UserServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<UA.WebApi.Middleware.GlobalExceptionHandlerMiddleware>();
+app.UseMiddleware<UA.WebApi.Middleware.LoggingMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

@@ -28,6 +28,10 @@ namespace UA.Infrastructure.Repository
         {
             return await _context.Users.ToListAsync();
         }
+        public async Task<IEnumerable<User>> GetByFilters(string filter)
+        {
+            return await _context.Users.Where(x => x.Email.EndsWith("@" + filter)).ToListAsync();
+        }
 
         public async Task<User?> GetByIdAsync(Guid id)
         {

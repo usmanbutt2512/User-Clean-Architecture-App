@@ -19,7 +19,7 @@ namespace UA.Application.Services
 
         public async Task<UserDto?> CreateUserAsync(UserCreateUpdateDto dto)
         {            
-            var user = await _userRepo.AddAsync(new User
+            var user = await _userRepo.AddAsync(new User// add Unique check 
             {
                 Name = dto.Name,
                 Email = dto.Email
@@ -77,6 +77,12 @@ namespace UA.Application.Services
                 return Map(updatedUser);
             }
             return null;
+        }
+
+        public async Task<List<UserDto>> GetUsersByEmails(string filter)
+        {
+            var users = await _userRepo.GetByFilters(filter);
+            return users.Select(x=>Map(x)).ToList();
         }
 
         private static UserDto Map(User u) => new UserDto(u.Id, u.Name, u.Email, u.CreatedAt);
