@@ -42,7 +42,7 @@ namespace Application.Tests.Services
         public async Task CreateUser_Success()
         {
             var Userservice = CreateService(out var context);
-            string userEmail = "testuser7@gmail.com";
+            string userEmail = "testuser7011@gmail.com";
             var result = await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User", userEmail));
             result.Id.Should().NotBeEmpty();
             result.Name.Should().Be("Test User");
@@ -52,9 +52,9 @@ namespace Application.Tests.Services
         public async Task UpdateUserEmail_Success()
         {
             var Userservice = CreateService(out var context);
-            var userCreated = await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User", "oldemail@gmail.com"));
-            var userUpdated = await Userservice.UpdateUserEmail(userCreated.Id, new UserEmailUpdateDto("newemail@gmail2.com"));
-            userUpdated.Email.Should().Be("newemail@gmail2.com");
+            var userCreated = await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User", "olderEmail@gmail.com"));
+            var userUpdated = await Userservice.UpdateUserEmail(userCreated.Id, new UserEmailUpdateDto("neweremail@gmail.com"));
+            userUpdated.Email.Should().Be("neweremail@gmail.com");
         }
         [Fact]
         public async Task DeleteUser_Success()
@@ -70,9 +70,9 @@ namespace Application.Tests.Services
         public async Task LinqFilterLogic_success()
         {
             var Userservice = CreateService(out var context);
-            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User101", "user1001@yahoo.com"));
-            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User102", "user1002@yahoo.com"));
-            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User103", "user1003@Hosting.com"));
+            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User101", "user10012@yahoo.com"));
+            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User102", "user10023@yahoo.com"));
+            await Userservice.CreateUserAsync(new UserCreateUpdateDto("Test User103", "user10033@Hosting.com"));
             var filteredUsers = await Userservice.GetUsersByEmails("yahoo.com");            
             filteredUsers.Select(u => u.Email).Should().OnlyContain(e => e.EndsWith("@yahoo.com"));
         }
